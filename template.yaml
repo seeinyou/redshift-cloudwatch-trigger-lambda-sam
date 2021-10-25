@@ -1,0 +1,76 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  redshift-cluster-ops-pause-1
+
+  The SAM Template for an application to pause a Redshift cluster triggered by SNS.
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 300
+
+Resources:
+  # SNS Topic for triggering Lambda function
+  RedshiftMonitoringSnsTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      Subscription:
+        - Protocol: lambda
+          Endpoint: !GetAtt RedshiftOpsPauseClusterFunction.Arn
+        - Protocol: email
+          Endpoint: admin@example.com
+        # - Protocol: lambda
+        #   Endpoint: !GetAtt TopicConsumerFunction2.Arn
+
+  # The SNS Topic consuming permission
+  TopicConsumerLambdaPermission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !Ref RedshiftOpsPauseClusterFunction
+      Principal: sns.amazonaws.com
+
+  # A Lambda function to pause the Redshift cluster
+  RedshiftOpsPauseClusterFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: src/
+      Handler: pause.lambda_handler
+      Runtime: python3.8
+      Tracing: Active
+      Role: arn:aws:iam::629728208351:role/lambda-exec-role-4
+      Architectures:
+        - x86_64
+      Events:
+        RedshiftMonitoringSNSEvent:
+          Type: SNS # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            # FilterPolicy: SnsFilterPolicy
+            # Region: !Ref "AWS::REGION"
+            SqsSubscription: false
+            Topic: !Ref RedshiftMonitoringSnsTopic
+      # EventInvokeConfig:
+      #   DestinationConfig:
+      #     OnFailure:
+      #       Type: SNS
+      #       Destination: arn:aws:sns:ap-southeast-1:629728208351:apsoutheast1-sns-textract-failures-1
+      #     OnSuccess:
+      #       Type: SNS
+      #       Destination: arn:aws:sns:ap-southeast-1:629728208351:AWS-ab3-after-ocr
+      #   MaximumEventAgeInSeconds: 600
+      #   MaximumRetryAttempts: 2
+
+# Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  # HelloWorldApi:
+  #   Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+  #   Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+  # HelloWorldFunction:
+  #   Description: "Hello World Lambda Function ARN"
+  #   Value: !GetAtt HelloWorldFunction.Arn
+  # HelloWorldFunctionIamRole:
+  #   Description: "Implicit IAM Role created for Hello World function"
+  #   Value: !GetAtt HelloWorldFunctionRole.Arn
