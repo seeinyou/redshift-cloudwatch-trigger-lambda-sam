@@ -50,7 +50,7 @@ The application uses several AWS resources, including **Lambda functions** and a
 
 ## Configure Redshift cluster CloudWatch alarm
 - Create a CloudWatch alarm to monitor the CPU utilization of a Redshift cluster.
-- Set the alarm threshold to preferred values. For example 5 for 1 minutes.
+- Set the alarm threshold to preferred values. For example 5 consecutive periods of 1 minutes.
 - Configure an action to send a notification to an Amazon SNS topic, which should be created in the SAM template.
 
 ## Conclusion
