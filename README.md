@@ -3,7 +3,7 @@
 
 # Introduction  
 
-In many use cases, the OLTP workloads on Redshift clusters usually run a few times a week and could finish in a short period of time, so it could be much more economical to run the workloads on larger clusters so that they could finish in a shorter period of time and Redshift clusters could be paused for the cost saving propose.
+In many use cases, the OLTP workloads on Redshift clusters usually run a few times a week and could finish in a short period of time, so it could be much more cost-effective to run the workloads on larger clusters so that they could finish in a shorter period of time and Redshift clusters could be paused for the cost saving propose.
 
 This project is developed to automate Redshift cluster operations in a cost effective way.
 
@@ -11,7 +11,7 @@ The project is built-on AWS Serverless Application Model (**SAM**), which is a c
 
 # Files
 
-- src - Code for the application's Lambda function.
+- src - Code for the application's Lambda functions.
 - events - Invocation events that you can use to invoke the function.
 - tests - Unit tests for the application code.
 - template.yaml - A template that defines the application's AWS resources.
