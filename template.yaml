@@ -1,0 +1,68 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  redshift-cluster-ops-pause-1
+
+  The SAM Template for an application to pause a Redshift cluster triggered by SNS.
+
+Globals:
+  Function:
+    Timeout: 300
+
+Resources:
+  # SNS Topic for triggering Lambda function
+  RedshiftMonitoringSnsTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      Subscription:
+        - Protocol: lambda
+          Endpoint: !GetAtt RedshiftOpsPauseClusterFunction.Arn
+        - Protocol: email
+          Endpoint: admin@example.com
+
+  # The SNS Topic consuming permission
+  TopicConsumerLambdaPermission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !Ref RedshiftOpsPauseClusterFunction
+      Principal: sns.amazonaws.com
+
+  # A Lambda function to pause the Redshift cluster
+  RedshiftOpsPauseClusterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: pause.lambda_handler
+      Runtime: python3.8
+      Tracing: Active
+      Role: arn:aws:iam::629728208351:role/lambda-exec-role-4
+      Architectures:
+        - arm64
+      Events:
+        RedshiftMonitoringSNSEvent:
+          Type: SNS
+          Properties:
+            Region: !Ref "AWS::REGION"
+            SqsSubscription: false
+            Topic: !Ref RedshiftMonitoringSnsTopic
+      # EventInvokeConfig:
+      #   DestinationConfig:
+      #     OnFailure:
+      #       Type: SNS
+      #       Destination: [sns-topic-arn]
+      #     OnSuccess:
+      #       Type: SNS
+      #       Destination: [sns-topic-arn]
+      #   MaximumEventAgeInSeconds: 600
+      #   MaximumRetryAttempts: 2
+
+Outputs:
+  # The SNS topic
+  RedshiftAlarmSnsTopic:
+    Description: "The Amazon SNS topic to receive Redshift cluster CloudWatch alarm and trigger Lambda functions."
+    Value: !Ref RedshiftMonitoringSnsTopic
+  RedshiftPauseFunction:
+    Description: "The Pause cluster Lambda function ARN"
+    Value: !GetAtt RedshiftOpsPauseClusterFunction.Arn
+

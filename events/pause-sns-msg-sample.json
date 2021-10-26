@@ -1,0 +1,24 @@
+{
+  "Records":[
+      {
+          "EventSource":"aws:sns",
+          "EventVersion":"1.0",
+          "EventSubscriptionArn":"arn:aws:sns:ap-southeast-1:[AWS_ACCOUNT_ID]:cluster-RedshiftMonitoringSnsTopic-1I5DZBSXV4ZBF:c3836930-8328-4c2b-934c-b259c85af3f3",
+          "Sns":{
+              "Type":"Notification",
+              "MessageId":"4690b1c5-3010-5e9d-812c-e8359e27ee4a",
+              "TopicArn":"arn:aws:sns:ap-southeast-1:[AWS_ACCOUNT_ID]:cluster-RedshiftMonitoringSnsTopic-1I5DZBSXV4ZBF",
+              "Subject":"ALARM: \"awsredshift-cluster-1-CPUUtilization-ALL\" in Asia Pacific (Singapore)",
+              "Message":"{\"AlarmName\":\"awsredshift-redshift-cluster-1-CPUUtilization-ALL\",\"AlarmDescription\":\"Redshift monitoring alarm for the CloudWatch\",\"AWSAccountId\":\"[AWS_ACCOUNT_ID]\",\"NewStateValue\":\"ALARM\",\"NewStateReason\":\"Threshold Crossed: 5 datapoints were less than the threshold (5.0). The most recent datapoints which crossed the threshold: [3.2399460008999847 (25/10/21 13:06:00), 0.8366666666666666 (25/10/21 13:05:00), 0.09999999999999999 (25/10/21 13:04:00), 0.0483333333333333 (25/10/21 13:03:00), 0.04 (25/10/21 13:02:00)].\",\"StateChangeTime\":\"2021-10-25T13:07:03.440+0000\",\"Region\":\"Asia Pacific (Singapore)\",\"AlarmArn\":\"arn:aws:cloudwatch:ap-southeast-1:[AWS_ACCOUNT_ID]:alarm:awsredshift-redshift-cluster-1-CPUUtilization-ALL\",\"OldStateValue\":\"INSUFFICIENT_DATA\",\"Trigger\":{\"MetricName\":\"CPUUtilization\",\"Namespace\":\"AWS/Redshift\",\"StatisticType\":\"Statistic\",\"Statistic\":\"AVERAGE\",\"Unit\":null,\"Dimensions\":[{\"value\":\"redshift-cluster-test-1\",\"name\":\"ClusterIdentifier\"}],\"Period\":60,\"EvaluationPeriods\":5,\"ComparisonOperator\":\"LessThanThreshold\",\"Threshold\":5.0,\"TreatMissingData\":\"\",\"EvaluateLowSampleCountPercentile\":\"\"}}",
+              "Timestamp":"2021-10-25T13:07:03.491Z",
+              "SignatureVersion":"1",
+              "Signature":"hoc8ebLB3gxrqrS1hYOkUa3oUXkxg386jsETn4tXe18lxqHdZmITTT9YAESbyt5ICRADIaYGYdvTjQ76Qvmpsyd1D5y6OKbh8jHJjlRi/qkYEShOMg/Nx6ftZ7qH3qN/R3gqZdBdOgo+WzIpbW+C6fTj0msxcN/gP0gPM7YzV0Rr01WjHuod7yzcfEmbML7Jg2EHo6uHhO1D3A9N/JdtIoJU5tJKr+AV+2zPA56kItJLLFYK0jK48qzy5FBDY7Pg1ZEeJ1a6TfnAYTXpwbgTXeg5ivBi3urgNz1WU3018EuKrzXbgxd9nh8QbHwA7dbeavf55TiMwjvN12t/78KWRw==",
+              "SigningCertUrl":"https://sns.ap-southeast-1.amazonaws.com/SimpleNotificationService-7ff5318490ec183fbaddaa2a969abfef.pem",
+              "UnsubscribeUrl":"https://sns.ap-southeast-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:ap-southeast-1:[AWS_ACCOUNT_ID]:redshift-cluster-ops-pause-1-RedshiftMonitoringSnsTopic-1I5DZBSXV4ZBF:c3836930-8328-4c2b-934c-b259c85af3f3",
+              "MessageAttributes":{
+                  
+              }
+          }
+      }
+  ]
+}
