@@ -50,7 +50,7 @@ Resources:
       #   DestinationConfig:
       #     OnFailure:
       #       Type: SNS
-      #       Destination: [sns-arn]
+      #       Destination: [sns-topic-arn]
       #     OnSuccess:
       #       Type: SNS
       #       Destination: [sns-topic-arn]
